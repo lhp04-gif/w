@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#ff4d6d" />
+  <title>Đếm Ngày Yêu Nhau 💖</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">💘</div>
+      <div class="brand-text">
+        <div id="coupleTitle" class="title">Đếm ngày yêu nhau</div>
+        <div id="coupleSub" class="sub">Lưu trên máy • Không cần backend</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btnTheme" class="btn btn-ghost" type="button">
+        <span>🌓</span><span>Mode</span>
+      </button>
+      <button id="btnEdit" class="btn btn-ghost" type="button">
+        <span>✏️</span><span>Sửa</span>
+      </button>
+      <button id="btnReset" class="btn btn-danger" type="button">
+        <span>🗑️</span><span>Reset</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="orb o3"></div>
+      </div>
+
+      <div class="hero-inner">
+        <div class="headline">
+          <div class="badge">✨ Love Counter</div>
+          <h1 id="headlineText">Tụi mình đã yêu nhau được…</h1>
+          <p class="note">Mẹo: nhập ngày bắt đầu → website tự lưu. Mở lại vẫn còn.</p>
+        </div>
+
+        <div class="timer">
+          <div class="timebox">
+            <div class="num" id="days">--</div>
+            <div class="cap">Ngày</div>
+          </div>
+          <div class="timebox">
+            <div class="num" id="hours">--</div>
+            <div class="cap">Giờ</div>
+          </div>
+          <div class="timebox">
+            <div class="num" id="minutes">--</div>
+            <div class="cap">Phút</div>
+          </div>
+          <div class="timebox">
+            <div class="num" id="seconds">--</div>
+            <div class="cap">Giây</div>
+          </div>
+        </div>
+
+        <div class="meta">
+          <div class="card">
+            <div class="label">Ngày bắt đầu</div>
+            <div class="value" id="startText">—</div>
+          </div>
+          <div class="card">
+            <div class="label">Kỷ niệm gần nhất</div>
+            <div class="value" id="milestoneText">—</div>
+          </div>
+          <div class="card">
+            <div class="label">Mốc tiếp theo</div>
+            <div class="value" id="nextText">—</div>
+          </div>
+        </div>
+
+        <div class="share">
+          <button id="btnCopyLink" class="btn btn-pink" type="button">
+            <span>🔗</span><span>Copy link kèm dữ liệu</span>
+          </button>
+          <div id="copyStatus" class="copy-status" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Những mốc dễ thương 💞</h2>
+        <p>Website sẽ tự “bắn tim” khi chạm mốc 100/200/300… ngày và mỗi năm.</p>
+      </div>
+
+      <div class="milestones" id="milestoneList"></div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="foot-big">💖 Chúc tụi mình luôn vui và thương nhau thật lâu 💖</div>
+        <div class="foot-sub">Tạo bằng HTML/CSS/JS • Chạy mượt • Responsive</div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- SETUP MODAL -->
+  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true" aria-label="Thiết lập">
+    <div class="modal-card">
+      <button id="modalClose" class="modal-close" type="button" aria-label="Đóng">✕</button>
+
+      <h3>Thiết lập đếm ngày yêu nhau</h3>
+      <p class="modal-sub">Nhập tên + thời điểm bắt đầu. Có thể chỉnh lại bất cứ lúc nào.</p>
+
+      <div class="form">
+        <div class="row2">
+          <div>
+            <label>Tên người A</label>
+            <input id="nameA" type="text" placeholder="Ví dụ: Minh" maxlength="20" />
+          </div>
+          <div>
+            <label>Tên người B</label>
+            <input id="nameB" type="text" placeholder="Ví dụ: An" maxlength="20" />
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Ngày bắt đầu</label>
+            <input id="startDate" type="date" />
+          </div>
+          <div>
+            <label>Giờ bắt đầu (tuỳ chọn)</label>
+            <input id="startTime" type="time" />
+          </div>
+        </div>
+
+        <div class="hint">
+          Nếu không nhập giờ, hệ thống mặc định 00:00.
+        </div>
+
+        <button id="btnSave" class="btn btn-pink btn-full" type="button">
+          💘 Lưu & Bắt đầu đếm
+        </button>
+
+        <div id="formError" class="error" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
